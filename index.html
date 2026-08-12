@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI Vault — 120+ AI Tools</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#08090d;color:#fff;min-height:100vh}
+header{text-align:center;padding:30px 18px;border-bottom:1px solid #20222b}
+.logo{font-size:36px;font-weight:800}
+.logo span{color:#7c5cff}
+.sub{color:#9296a6;margin-top:8px}
+.search{display:block;width:92%;max-width:680px;margin:22px auto 16px;padding:16px 18px;border:1px solid #292c38;border-radius:15px;background:#13151c;color:#fff;font-size:16px;outline:none}
+.search:focus{border-color:#7c5cff}
+.categories{display:flex;gap:8px;overflow-x:auto;padding:4px 4% 20px}
+.categories::-webkit-scrollbar{display:none}
+.cat{white-space:nowrap;padding:10px 15px;border-radius:22px;border:1px solid #292c38;background:#11131a;color:#bbb}
+.cat.active{background:#7c5cff;color:#fff;border-color:#7c5cff}
+.container{width:92%;max-width:1100px;margin:auto}
+.count{color:#858998;margin:5px 0 20px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:15px}
+.card{background:#12141b;border:1px solid #272a35;border-radius:18px;padding:19px;transition:.2s}
+.card:hover{transform:translateY(-3px);border-color:#7c5cff}
+.icon{font-size:30px;margin-bottom:12px}
+.card h2{font-size:18px;margin-bottom:7px}
+.card p{color:#8f93a3;font-size:14px;line-height:1.45;min-height:40px}
+.tag{display:inline-block;margin-top:13px;padding:5px 9px;border-radius:8px;background:#20222c;color:#aaa;font-size:11px}
+.actions{display:flex;gap:8px;margin-top:15px}
+.open{flex:1;text-align:center;padding:10px;border-radius:10px;background:#7c5cff;color:white;text-decoration:none;font-weight:bold}
+.fav{width:42px;border:1px solid #30333e;background:#181a22;color:#aaa;border-radius:10px;font-size:18px}
+.fav.saved{color:#ffd43b}
+.empty{text-align:center;padding:60px 10px;color:#777;display:none}
+footer{text-align:center;padding:45px 20px;color:#555;font-size:13px}
+</style>
+</head>
+<body>
+
+<header>
+<div class="logo">⚡ AI <span>Vault</span></div>
+<p class="sub">Discover 120+ AI tools in one place</p>
+</header>
+
+<input id="search" class="search" placeholder="🔎 Search AI tools..." oninput="render()">
+
+<div class="categories">
+<button class="cat active" onclick="choose('All',this)">All</button>
+<button class="cat" onclick="choose('Chat',this)">🤖 Chat</button>
+<button class="cat" onclick="choose('Image',this)">🎨 Image</button>
+<button class="cat" onclick="choose('Video',this)">🎬 Video</button>
+<button class="cat" onclick="choose('Coding',this)">💻 Coding</button>
+<button class="cat" onclick="choose('Writing',this)">✍️ Writing</button>
+<button class="cat" onclick="choose('Automation',this)">⚙️ Automation</button>
+</div>
+
+<main class="container">
+<div class="count" id="count"></div>
+<div class="grid" id="tools"></div>
+<div class="empty" id="empty">
+<h2>😕 No tools found</h2>
+<p>Try another search or category.</p>
+</div>
+</main>
+
+<footer>⚡ AI Vault · 120+ AI tools</footer>
+
+<script>
+
+const tools=[
+
+/* CHAT — 20 */
+["ChatGPT","Chat","🤖","AI assistant for writing, ideas, research and more."],
+["Claude","Chat","🧠","AI assistant for analysis, writing and coding."],
+["Gemini","Chat","✨","Google's AI assistant for everyday tasks."],
+["Microsoft Copilot","Chat","🪟","AI assistant for productivity and web tasks."],
+["Perplexity","Chat","🔎","AI search and research assistant."],
+["Grok","Chat","🚀","AI assistant with conversational search."],
+["Poe","Chat","💬","Platform for using multiple AI models."],
+["Pi","Chat","🌱","Personal conversational AI assistant."],
+["Character AI","Chat","🎭","Chat with AI characters and personalities."],
+["Le Chat","Chat","💬","AI assistant from Mistral."],
+["DeepSeek","Chat","🔬","AI models for reasoning and coding."],
+["Qwen","Chat","🐉","AI assistant and model family."],
+["Meta AI","Chat","🔵","Meta's AI assistant."],
+["You.com","Chat","🌐","AI search and productivity tools."],
+["Phind","Chat","👨‍💻","AI search assistant for developers."],
+["HuggingChat","Chat","🤗","Open AI chat experience."],
+["Mistral","Chat","🌬️","AI models and assistants from Mistral."],
+["Kimi","Chat","🌙","AI assistant for research and long documents."],
+["NotebookLM","Chat","📚","Research assistant for your documents."],
+["Consensus","Chat","🧪","AI-powered academic research search."],
+
+/* IMAGE — 20 */
+["Canva","Image","🎨","Design graphics, presentations and AI images."],
+["Adobe Firefly","Image","🔥","Generative AI for creative content."],
+["Midjourney","Image","🖼️","Create artistic AI-generated images."],
+["Leonardo AI","Image","🦁","AI image generation and creative tools."],
+["Ideogram","Image","🔤","Generate images with strong text rendering."],
+["Stable Diffusion","Image","🧩","Open image generation ecosystem."],
+["Playground AI","Image","🎨","Create and edit AI images."],
+["Recraft","Image","🖌️","AI design and image generation."],
+["Microsoft Designer","Image","✏️","AI-powered graphic design."],
+["Picsart","Image","📸","AI photo and design tools."],
+["Clipdrop","Image","✂️","AI-powered image editing tools."],
+["DreamStudio","Image","🌌","Create images using generative AI."],
+["NightCafe","Image","🌃","AI art creation community."],
+["Craiyon","Image","🖍️","Simple AI image generation."],
+["Artbreeder","Image","🧬","Explore and create AI-generated visuals."],
+["getimg.ai","Image","🪄","AI image generation and editing."],
+["Tensor.Art","Image","⚡","AI image generation platform."],
+["SeaArt AI","Image","🌊","AI art and image creation."],
+["Dezgo","Image","🎯","AI image generation tools."],
+["Freepik AI","Image","🖼️","AI image and creative design tools."],
+
+/* VIDEO — 20 */
+["Runway","Video","🎬","AI video generation and editing."],
+["Pika","Video","⚡","Generate creative AI videos."],
+["Kling AI","Video","🎥","AI video generation platform."],
+["Luma Dream Machine","Video","🌌","Generate cinematic AI video."],
+["Google Veo","Video","🎞️","Generative video technology from Google."],
+["Sora","Video","🌊","Create videos from text and images."],
+["Synthesia","Video","🧑‍💼","Create AI avatar business videos."],
+["HeyGen","Video","🎤","AI avatars and video creation."],
+["InVideo AI","Video","📹","Create videos from prompts."],
+["VEED","Video","✂️","Online video editor with AI tools."],
+["CapCut","Video","🎬","Video editing with AI features."],
+["Descript","Video","📝","Edit video and audio using text."],
+["OpusClip","Video","✂️","Turn long videos into short clips."],
+["Kapwing","Video","🎞️","Online video creation and editing."],
+["Fliki","Video","🗣️","Create videos with AI voices."],
+["D-ID","Video","👤","Create talking AI avatar videos."],
+["Colossyan","Video","🧑‍🏫","AI presenter and training videos."],
+["Elai","Video","🎤","Create AI avatar videos."],
+["Haiper","Video","🌟","AI video generation."],
+["PixVerse","Video","🎨","AI video creation platform."],
+
+/* CODING — 20 */
+["GitHub Copilot","Coding","💻","AI coding assistant from GitHub."],
+["Cursor","Coding","🖱️","AI-powered code editor."],
+["Windsurf","Coding","🏄","AI coding environment."],
+["Replit","Coding","🚀","Build and deploy apps online."],
+["Bolt.new","Coding","⚡","Generate web applications with AI."],
+["v0","Coding","▲","Generate interfaces and web apps."],
+["Lovable","Coding","💜","Build apps with natural language."],
+["Tabnine","Coding","⌨️","AI coding assistant."],
+["Amazon Q Developer","Coding","☁️","AI assistant for software development."],
+["Gemini Code Assist","Coding","✨","AI coding assistance from Google."],
+["Sourcegraph Cody","Coding","🔍","AI assistant for understanding code."],
+["Continue","Coding","🔧","Open-source AI coding assistant."],
+["Aider","Coding","🤖","AI pair programming in your terminal."],
+["Cline","Coding","🧑‍💻","AI coding agent."],
+["Zed","Coding","⚡","Fast code editor with AI features."],
+["Blackbox AI","Coding","⬛","AI tools for developers."],
+["CodeRabbit","Coding","🐰","AI code review assistant."],
+["Qodo","Coding","🧪","AI software engineering tools."],
+["Augment Code","Coding","🚀","AI coding tools for developers."],
+["Mutable AI","Coding","🧠","AI tools for software development."],
+
+/* WRITING — 20 */
+["Grammarly","Writing","✍️","Writing and grammar assistant."],
+["Jasper","Writing","📝","AI content creation platform."],
+["Copy.ai","Writing","📋","AI writing and marketing tools."],
+["Writesonic","Writing","⚡","AI writing and content platform."],
+["Rytr","Writing","✏️","AI writing assistant."],
+["QuillBot","Writing","🔄","Paraphrasing and writing tools."],
+["Wordtune","Writing","🪄","Rewrite and improve your writing."],
+["Sudowrite","Writing","📖","AI writing assistant for fiction."],
+["Anyword","Writing","📣","AI copywriting platform."],
+["HyperWrite","Writing","🚀","AI writing and productivity assistant."],
+["Writer","Writing","🏢","Enterprise AI writing platform."],
+["Simplified","Writing","🎯","AI content and marketing tools."],
+["Peppertype","Writing","🌶️","AI content writing platform."],
+["Scalenut","Writing","📈","AI SEO and content platform."],
+["Frase","Writing","🔎","AI SEO and content optimization."],
+["Surfer","Writing","🏄","SEO and content optimization."],
+["ProWritingAid","Writing","📚","Writing analysis and editing."],
+["LanguageTool","Writing","🔤","Grammar and writing assistant."],
+["Lex","Writing","📄","AI-powered writing workspace."],
+["Jenni AI","Writing","🎓","AI writing and academic assistant."],
+
+/* AUTOMATION — 20 */
+["Zapier","Automation","⚙️","Connect apps and automate workflows."],
+["Make","Automation","🔗","Visual workflow automation platform."],
+["n8n","Automation","🧩","Open workflow automation platform."],
+["Bardeen","Automation","🤖","Browser and workflow automation."],
+["Lindy","Automation","🧠","Build AI assistants and automations."],
+["Relevance AI","Automation","⚡","Build AI agents and workflows."],
+["Gumloop","Automation","🔄","AI-powered workflow automation."],
+["Relay.app","Automation","🔗","Automate business workflows."],
+["Taskade","Automation","📋","AI productivity and workflow platform."],
+["Flowise","Automation","🌊","Build AI workflows visually."],
+["Dify","Automation","🧱","Build AI applications and workflows."],
+["Langflow","Automation","🔵","Visual builder for AI workflows."],
+["Pipedream","Automation","⚡","Developer automation platform."],
+["Activepieces","Automation","🧩","Open-source automation platform."],
+["Albato","Automation","🔗","No-code integration automation."],
+["Integrately","Automation","🔄","Automate app integrations."],
+["IFTTT","Automation","🔁","Connect services and automate tasks."],
+["Power Automate","Automation","🪟","Microsoft workflow automation."],
+["UiPath","Automation","🤖","Enterprise robotic process automation."],
+["Workato","Automation","🏢","Enterprise automation platform."]
+
+];
+
+const links={
+"ChatGPT":"https://chatgpt.com/",
+"Claude":"https://claude.ai/",
+"Gemini":"https://gemini.google.com/",
+"Microsoft Copilot":"https://copilot.microsoft.com/",
+"Perplexity":"https://www.perplexity.ai/",
+"Canva":"https://www.canva.com/",
+"Adobe Firefly":"https://firefly.adobe.com/",
+"Midjourney":"https://www.midjourney.com/",
+"Leonardo AI":"https://leonardo.ai/",
+"Runway":"https://runwayml.com/",
+"Pika":"https://pika.art/",
+"Kling AI":"https://klingai.com/",
+"Replit":"https://replit.com/",
+"GitHub Copilot":"https://github.com/features/copilot",
+"Cursor":"https://www.cursor.com/",
+"Windsurf":"https://windsurf.com/",
+"Lovable":"https://lovable.dev/",
+"Grammarly":"https://www.grammarly.com/",
+"QuillBot":"https://quillbot.com/",
+"Zapier":"https://zapier.com/",
+"Make":"https://www.make.com/",
+"n8n":"https://n8n.io/",
+"Taskade":"https://www.taskade.com/",
+"Dify":"https://dify.ai/",
+"IFTTT":"https://ifttt.com/"
+};
+
+let category="All";
+
+function choose(c,b){
+category=c;
+document.querySelectorAll(".cat").forEach(x=>x.classList.remove("active"));
+b.classList.add("active");
+render();
+}
+
+function render(){
+
+const q=document.getElementById("search").value.toLowerCase().trim();
+const box=document.getElementById("tools");
+box.innerHTML="";
+
+let visible=0;
+
+tools.forEach((t,i)=>{
+
+const [name,cat,icon,desc]=t;
+
+if(category!=="All"&&cat!==category)return;
+
+if(q&&!((name+" "+cat+" "+desc).toLowerCase().includes(q)))return;
+
+visible++;
+
+const saved=localStorage.getItem("fav_"+name)==="1";
+
+const url=links[name]||
+"https://www.google.com/search?q="+encodeURIComponent(name+" official");
+
+box.innerHTML+=`
+<div class="card">
+<div class="icon">${icon}</div>
+<h2>${name}</h2>
+<p>${desc}</p>
+<span class="tag">${cat}</span>
+<div class="actions">
+<a class="open" href="${url}" target="_blank" rel="noopener">Open ↗</a>
+<button class="fav ${saved?"saved":""}" onclick="favorite('${name.replace(/'/g,"\\'")}',this)">
+${saved?"★":"☆"}
+</button>
+</div>
+</div>`;
+});
+
+document.getElementById("count").textContent=
+visible+" tools found";
+
+document.getElementById("empty").style.display=
+visible?"none":"block";
+}
+
+function favorite(name,button){
+
+const key="fav_"+name;
+const saved=localStorage.getItem(key)==="1";
+
+if(saved){
+localStorage.removeItem(key);
+button.classList.remove("saved");
+button.textContent="☆";
+}else{
+localStorage.setItem(key,"1");
+button.classList.add("saved");
+button.textContent="★";
+}
+}
+
+render();
+
+</script>
+</body>
+</html>
