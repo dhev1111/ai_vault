@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Vault</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+font-family:Arial,sans-serif;
+background:#08090d;
+color:#fff;
+min-height:100vh;
+}
+
+header{
+padding:28px 18px 20px;
+text-align:center;
+border-bottom:1px solid #20222b;
+}
+
+.logo{
+font-size:34px;
+font-weight:800;
+}
+
+.logo span{color:#7c5cff}
+
+.subtitle{
+color:#8f93a3;
+margin-top:8px;
+}
+
+.search{
+display:block;
+width:92%;
+max-width:650px;
+margin:22px auto;
+padding:16px 18px;
+border-radius:14px;
+border:1px solid #292c38;
+background:#13151c;
+color:#fff;
+font-size:16px;
+outline:none;
+}
+
+.search:focus{border-color:#7c5cff}
+
+.categories{
+display:flex;
+gap:8px;
+overflow-x:auto;
+padding:4px 4% 18px;
+}
+
+.category{
+white-space:nowrap;
+padding:10px 15px;
+border-radius:20px;
+border:1px solid #292c38;
+background:#11131a;
+color:#bbb;
+cursor:pointer;
+}
+
+.category.active{
+background:#7c5cff;
+color:white;
+border-color:#7c5cff;
+}
+
+.container{
+width:92%;
+max-width:1100px;
+margin:auto;
+}
+
+.section-title{
+margin:10px 0 18px;
+font-size:22px;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:15px;
+}
+
+.card{
+position:relative;
+background:#12141b;
+border:1px solid #272a35;
+border-radius:18px;
+padding:20px;
+transition:.2s;
+}
+
+.card:hover{
+transform:translateY(-4px);
+border-color:#7c5cff;
+}
+
+.icon{font-size:32px;margin-bottom:14px}
+
+.card h2{
+font-size:19px;
+margin-bottom:7px;
+}
+
+.card p{
+font-size:14px;
+line-height:1.5;
+color:#8f93a3;
+min-height:42px;
+}
+
+.tag{
+display:inline-block;
+margin-top:14px;
+padding:5px 9px;
+border-radius:8px;
+background:#20222c;
+color:#aaa;
+font-size:11px;
+}
+
+.actions{
+display:flex;
+gap:8px;
+margin-top:17px;
+}
+
+.open{
+flex:1;
+text-align:center;
+padding:10px;
+border-radius:10px;
+background:#7c5cff;
+color:white;
+text-decoration:none;
+font-weight:bold;
+}
+
+.favorite{
+width:42px;
+border:1px solid #30333e;
+background:#181a22;
+color:#aaa;
+border-radius:10px;
+font-size:18px;
+}
+
+.favorite.saved{color:#ffd43b}
+
+.empty{
+display:none;
+text-align:center;
+padding:50px 10px;
+color:#777;
+}
+
+footer{
+text-align:center;
+padding:45px 20px;
+color:#555;
+font-size:13px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="logo">⚡ AI <span>Vault</span></div>
+<p class="subtitle">Discover powerful AI tools in one place</p>
+</header>
+
+<input
+class="search"
+id="search"
+type="text"
+placeholder="🔎 Search AI tools..."
+oninput="filterTools()"
+>
+
+<div class="categories">
+<button class="category active" onclick="setCategory('All',this)">All</button>
+<button class="category" onclick="setCategory('Chat',this)">🤖 Chat</button>
+<button class="category" onclick="setCategory('Image',this)">🎨 Image</button>
+<button class="category" onclick="setCategory('Video',this)">🎬 Video</button>
+<button class="category" onclick="setCategory('Coding',this)">💻 Coding</button>
+<button class="category" onclick="setCategory('Writing',this)">✍️ Writing</button>
+<button class="category" onclick="setCategory('Automation',this)">⚙️ Automation</button>
+</div>
+
+<main class="container">
+
+<h2 class="section-title">🔥 AI Tools</h2>
+
+<div class="grid" id="tools">
+
+<div class="card" data-category="Chat" data-name="ChatGPT AI Chat">
+<div class="icon">🤖</div>
+<h2>ChatGPT</h2>
+<p>AI assistant for questions, writing, ideas, research and more.</p>
+<span class="tag">Chat</span>
+<div class="actions">
+<a class="open" href="https://chatgpt.com/" target="_blank">Open ↗</a>
+<button class="favorite" onclick="favorite(this)">☆</button>
+</div>
+</div>
+
+<div class="card" data-category="Image" data-name="Canva AI Image Design">
+<div class="icon">🎨</div>
+<h2>Canva</h2>
+<p>Create designs, presentations, images and social media content.</p>
+<span class="tag">Design</span>
+<div class="actions">
+<a class="open" href="https://www.canva.com/" target="_blank">Open ↗</a>
+<button class="favorite" onclick="favorite(this)">☆</button>
+</div>
+</div>
+
+<div class="card" data-category="Video" data-name="Runway AI Video">
+<div class="icon">🎬</div>
+<h2>Runway</h2>
+<p>Create and edit creative video content with AI.</p>
+<span class="tag">Video</span>
+<div class="actions">
+<a class="open" href="https://runwayml.com/" target="_blank">Open ↗</a>
+<button class="favorite" onclick="favorite(this)">☆</button>
+</div>
+</div>
+
+<div class="card" data-category="Coding" data-name="GitHub Coding">
+<div class="icon">💻</div>
+<h2>GitHub</h2>
+<p>Build, store and collaborate on software projects.</p>
+<span class="tag">Coding</span>
+<div class="actions">
+<a class="open" href="https://github.com/" target="_blank">Open ↗</a>
+<button class="favorite" onclick="favorite(this)">☆</button>
+</div>
+</div>
+
+<div class="card" data-category="Writing" data-name="Grammarly Writing AI">
+<div class="icon">✍️</div>
+<h2>Grammarly</h2>
+<p>Improve writing, grammar, clarity and communication.</p>
+<span class="tag">Writing</span>
+<div class="actions">
+<a class="open" href="https://www.grammarly.com/" target="_blank">Open ↗</a>
+<button class="favorite" onclick="favorite(this)">☆</button>
+</div>
+</div>
+
+<div class="card" data-category="Automation" data-name="Zapier Automation">
+<div class="icon">⚙️</div>
+<h2>Zapier</h2>
+<p>Connect apps and automate repetitive workflows.</p>
+<span class="tag">Automation</span>
+<div class="actions">
+<a class="open" href="https://zapier.com/" target="_blank">Open ↗</a>
+<button class="favorite" onclick="favorite(this)">☆</button>
+</div>
+</div>
+
+<div class="card" data-category="Chat" data-name="Claude AI Chat">
+<div class="icon">🧠</div>
+<h2>Claude</h2>
+<p>AI assistant for analysis, writing, coding and research.</p>
+<span class="tag">Chat</span>
+<div class="actions">
+<a class="open" href="https://claude.ai/" target="_blank">Open ↗</a>
+<button class="favorite" onclick="favorite(this)">☆</button>
+</div>
+</div>
+
+<div class="card" data-category="Image" data-name="Adobe Firefly AI">
+<div class="icon">✨</div>
+<h2>Adobe Firefly</h2>
+<p>Generate creative images and designs with generative AI.</p>
+<span class="tag">Image</span>
+<div class="actions">
+<a class="open" href="https://firefly.adobe.com/" target="_blank">Open ↗</a>
+<button class="favorite" onclick="favorite(this)">☆</button>
+</div>
+</div>
+
+</div>
+
+<div class="empty" id="empty">
+<h2>😕 No tools found</h2>
+<p>Try another search or category.</p>
+</div>
+
+</main>
+
+<footer>
+⚡ AI Vault · Your AI toolbox
+</footer>
+
+<script>
+
+let currentCategory="All";
+
+function setCategory(category,button){
+
+currentCategory=category;
+
+document.querySelectorAll(".category")
+.forEach(b=>b.classList.remove("active"));
+
+button.classList.add("active");
+
+filterTools();
+}
+
+function filterTools(){
+
+const query=document
+.getElementById("search")
+.value
+.toLowerCase();
+
+const cards=document.querySelectorAll(".card");
+
+let visible=0;
+
+cards.forEach(card=>{
+
+const name=card.dataset.name.toLowerCase();
+const category=card.dataset.category;
+
+const matchesSearch=name.includes(query);
+const matchesCategory=
+currentCategory==="All" ||
+category===currentCategory;
+
+if(matchesSearch && matchesCategory){
+card.style.display="block";
+visible++;
+}else{
+card.style.display="none";
+}
+
+});
+
+document.getElementById("empty").style.display=
+visible===0 ? "block" : "none";
+}
+
+function favorite(button){
+
+button.classList.toggle("saved");
+
+button.textContent=
+button.classList.contains("saved") ? "★" : "☆";
+}
+
+</script>
+
+</body>
+</html>
